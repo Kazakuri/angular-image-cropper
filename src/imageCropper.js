@@ -121,10 +121,10 @@ Cropper.prototype.bindControls = function() {
     self.applyRotation(90);
   });
   this.elements.controls.zoomIn.addEventListener('click', function() {
-    self.applyZoomIn(self.zoomInFactor);
+    self.applyZoomIn(self.zoomStep);
   });
   this.elements.controls.zoomOut.addEventListener('click', function() {
-    self.applyZoomOut(self.zoomOutFactor);
+    self.applyZoomOut(self.zoomStep);
   });
   this.elements.controls.fit.addEventListener('click', this.applyFit.bind(this));
   this.elements.controls.crop.addEventListener('click', this.cropImage.bind(this));
@@ -135,10 +135,10 @@ Cropper.prototype.applyRotation = function(degree) {
 };
 
 Cropper.prototype.applyZoomIn = function(zoom) {
-  this.zoomImage(1 + parseFloat(zoom));
+  this.zoomImage(1 + parseFloat(zoom / 100));
 };
 Cropper.prototype.applyZoomOut = function(zoom) {
-  this.zoomImage(1 / ( 1 + parseFloat(zoom)));
+  this.zoomImage(1 - parseFloat(zoom / 100));
 };
 
 Cropper.prototype.applyFit = function() {
@@ -294,8 +294,8 @@ Cropper.prototype.setupImageSRC = function() {
  * Set dimensions.
  */
 Cropper.prototype.setDimensions = function() {
-  this.zoomInFactor = 1 + parseFloat(this.options.zoomStep);
-  this.zoomOutFactor = 1 / this.zoomInFactor;
+  this.zoomStep = parseFloat(this.options.zoomStep);
+
 
   this.imageRatio = this.options.height / this.options.width;
   this.width = this.elements.image.naturalWidth / this.options.width;
@@ -509,10 +509,6 @@ Cropper.prototype.rotateImage = function(degrees) {
 };
 
 Cropper.prototype.zoomImage = function(factor) {
-  if (factor <= 0 || factor == 1) {
-    return;
-  }
-
   var originalWidth = this.width;
 
   if (this.width * factor > 1 && this.height * factor > 1) {
