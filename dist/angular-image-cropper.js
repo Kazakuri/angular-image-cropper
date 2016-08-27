@@ -142,6 +142,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rotate: this.applyRotation.bind(this),
 	    zoomIn: this.applyZoomIn.bind(this),
 	    zoomOut: this.applyZoomOut.bind(this),
+	    top: this.applyTop.bind(this),
+	    left: this.applyLeft.bind(this),
 	    remove: this.remove.bind(this)
 	  };
 	
@@ -154,8 +156,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Execute callback function when cropped.
 	   */
 	  if (this.options.cropCallback) {
-	    this.events.on('Cropped', function(base64) {
-	      this.options.cropCallback(base64);
+	    this.events.on('Cropped', function(data) {
+	      console.log(data);
+	      this.options.cropCallback(data);
 	    }.bind(this));
 	  }
 	
@@ -214,6 +217,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	Cropper.prototype.applyZoomOut = function(zoom) {
 	  this.zoomImage(1 - parseFloat(zoom / 100));
+	};
+	
+	Cropper.prototype.applyTop = function(top) {
+	  this.setOffset(this.left, top);
+	};
+	Cropper.prototype.applyLeft = function(left) {
+	  this.setOffset(left, this.top);
 	};
 	
 	Cropper.prototype.applyFit = function() {
@@ -656,7 +666,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  var base64 = canvas.toDataURL('image/jpeg');
-	  this.events.triggerHandler('Cropped', base64);
+	  var data = {
+	    left: this.data.x,
+	    top: this.data.y,
+	    scale: this.data.scale,
+	    dataUri: base64
+	  };
+	  this.events.triggerHandler('Cropped', data);
 	  return base64;
 	};
 	
