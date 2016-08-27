@@ -157,7 +157,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  if (this.options.cropCallback) {
 	    this.events.on('Cropped', function(data) {
-	      console.log(data);
 	      this.options.cropCallback(data);
 	    }.bind(this));
 	  }
@@ -404,10 +403,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.elements.container.style.left = 0;
 	
 	  // Wrapper.
-	  this.elements.wrapper.style.height = 'auto';
-	  this.elements.wrapper.style.width = '100%';
+	  this.elements.wrapper.style.height = parseFloat(this.options.height) + "px";
+	  this.elements.wrapper.style.width = parseFloat(this.options.width) + "px";
 	  this.elements.wrapper.style.paddingTop = (this.imageRatio * 100) + '%';
-	
+	  
 	  this.isReady = true;
 	};
 	
