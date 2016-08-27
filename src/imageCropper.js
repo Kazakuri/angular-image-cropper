@@ -328,10 +328,10 @@ Cropper.prototype.setDimensions = function() {
   this.elements.container.style.left = 0;
 
   // Wrapper.
-  this.elements.wrapper.style.height = 'auto';
-  this.elements.wrapper.style.width = '100%';
+  this.elements.wrapper.style.height = parseFloat(this.options.height) + "px";
+  this.elements.wrapper.style.width = parseFloat(this.options.width) + "px";
   this.elements.wrapper.style.paddingTop = (this.imageRatio * 100) + '%';
-
+  
   this.isReady = true;
 };
 
