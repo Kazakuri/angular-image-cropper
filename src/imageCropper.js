@@ -82,7 +82,6 @@ function Cropper(options) {
    */
   if (this.options.cropCallback) {
     this.events.on('Cropped', function(data) {
-      console.log(data);
       this.options.cropCallback(data);
     }.bind(this));
   }
